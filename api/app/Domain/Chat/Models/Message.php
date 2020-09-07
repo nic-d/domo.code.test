@@ -1,47 +1,38 @@
 <?php
 
-namespace App\Domain\Infrastructure\Models;
+namespace App\Domain\Chat\Models;
 
 use Carbon\Carbon;
-use Laravolt\Avatar\Avatar;
-use Laravel\Passport\HasApiTokens;
-use App\Domain\Chat\Models\Message;
-use App\Domain\Chat\Models\Channel;
-use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Model;
+use App\Domain\Infrastructure\Models\User;
 use Illuminate\Database\Eloquent\Relations;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Domain\Infrastructure\Support\Traits\Uuid;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 
 /**
  * @property-read int $id
  * @property-read string $uuid
- * @property string $name
- * @property string $email
- * @property string $password
+ * @property int $user_id
  * @property int $channel_id
- * @property Carbon|null $created_at
- * @property Carbon|null $updated_at
- *
- * -- attributes --
- * @property-read string $avatar
+ * @property string $message
+ * @property-read Carbon $created_at
+ * @property-read Carbon $updated_at
+ * @property-read Carbon|null $deleted_at
  */
-class User extends Authenticatable
+class Message extends Model
 {
     use Uuid;
-    use Notifiable;
     use SoftDeletes;
-    use HasApiTokens;
 
     protected $fillable = [
 //        'id',
 //        'uuid',
-        'name',
-        'email',
-        'password',
-        'channel_id'
+        'user_id',
+        'channel_id',
+        'message',
 //        'created_at',
 //        'updated_at',
+//        'deleted_at',
     ];
 
     protected $dates = [
@@ -51,20 +42,12 @@ class User extends Authenticatable
     ];
 
     /**
-     * @return string
+     * @return Relations\BelongsTo
      */
-    public function getAvatarAttribute() : string
+    public function user() : Relations\BelongsTo
     {
-        return (new Avatar([]))->create($this->name)->toBase64();
-    }
-
-    /**
-     * @return Relations\HasMany
-     */
-    public function messages() : Relations\HasMany
-    {
-        return $this->hasMany(
-            Message::class,
+        return $this->belongsTo(
+            User::class,
             'user_id',
             'id',
         );
