@@ -1,0 +1,113 @@
+version: '3.2'
+
+networks:
+  domo:
+    driver: bridge
+
+volumes:
+  data-db:
+    driver: local
+  data-redis:
+    driver: local
+
+services:
+  proxy:
+    image: nginx:stable-alpine
+    container_name: domo_proxy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./api:/var/api:ro
+      - ./client:/var/client:ro
+      - ./.docker/nginx/default.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - api
+      - client
+      - database
+      - redis
+    links:
+      - api
+    networks:
+      - domo
+
+  database:
+    image: mysql:5.7
+    container_name: domo_database
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: domo
+      MYSQL_USER: domo
+      MYSQL_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: secret
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    networks:
+      - domo
+    links:
+      - api
+    volumes:
+      - data-db:/var/lib/mysql
+      - ./.docker/database:/docker-entrypoint-initdb.d
+
+  redis:
+    image: redis:alpine
+    container_name: domo_redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    networks:
+      - domo
+    volumes:
+      - data-redis:/data
+
+  api:
+    build:
+      context: .docker/php
+      dockerfile: Dockerfile
+    container_name: domo_api
+    working_dir: /var/api
+    restart: unless-stopped
+    volumes:
+      - ./api:/var/api:delegated
+    ports:
+      - "9000:9000"
+    networks:
+      - domo
+      
+  websocket:
+    build:
+      context: .docker/php
+      dockerfile: Dockerfile
+    container_name: domo_websocket
+    working_dir: /var/api
+    restart: unless-stopped
+    volumes:
+      - ./api:/var/api:delegated
+    ports:
+      - "6001:6001"
+    networks:
+      - domo
+    command: bash -c "php artisan websockets:serve"
+        
+  client:
+    image: node:14
+    container_name: domo_client
+    working_dir: /var/client
+    restart: always
+    environment:
+      - HOST=0.0.0.0
+      - PORT=3000
+    volumes:
+      - ./client:/var/client:delegated
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
+    networks:
+      - domo
+    command: bash -c "yarn dev"

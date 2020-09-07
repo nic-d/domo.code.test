@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+PWD=`pwd`
+RED='\033[0;31m'
+NOC='\033[0m' # No Color
+
+[ -z "$1" ] && printf "${RED}Please specify a docker-compose service (e.g. app)${NOC}" && exit
+
+/bin/bash ${PWD}/bin/run exec $1 /bin/sh

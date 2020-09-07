@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+echo "127.0.0.1  api.domo_project.local" >> /etc/hosts
+echo "127.0.0.1  domo_project.local" >> /etc/hosts
+echo ""
+echo "SUCCESS!"
