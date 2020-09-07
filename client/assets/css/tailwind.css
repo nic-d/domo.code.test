@@ -1,0 +1,8 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+@font-face {
+  font-family: 'Lato';
+  src: local('Lato Regular'), url(../fonts/lato/lato-v16-latin-regular.ttf) format('woff');
+}
