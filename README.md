@@ -1,4 +1,5 @@
 # DOMO Chat App
+![Chat App]()
 
 ### Initial Setup
 1. Install [docker on mac](https://hub.docker.com/?overlay=onboarding).
