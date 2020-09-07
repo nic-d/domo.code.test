@@ -25,6 +25,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  *
  * -- attributes --
  * @property-read string $avatar
+ * @property-read string|null $last_active_channel
  */
 class User extends Authenticatable
 {
@@ -56,6 +57,18 @@ class User extends Authenticatable
     public function getAvatarAttribute() : string
     {
         return (new Avatar([]))->create($this->name)->toBase64();
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getLastActiveChannelAttribute() : ?string
+    {
+        if (! $this->channel instanceof Channel) {
+            return null;
+        }
+
+        return $this->channel->uuid;
     }
 
     /**

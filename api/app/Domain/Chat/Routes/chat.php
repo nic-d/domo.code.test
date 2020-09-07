@@ -23,7 +23,7 @@ Route::group(['middleware' => ['api']], function () {
 Route::group(['middleware' => ['api', 'auth:api']], function () {
 
     # user
-//    Route::patch('/account/last-channel', Controllers\Account\LastChannel\UpdateController::class);
+    Route::patch('/account/last-channel', Controllers\Account\Channel\UpdateController::class);
 
     # channels
 //    Route::get('/channels', Controllers\Channel\ListController::class);
