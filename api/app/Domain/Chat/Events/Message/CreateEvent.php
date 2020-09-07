@@ -35,11 +35,9 @@ class CreateEvent extends Event implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-        // We might broadcast on `user` or `channel`
         $channel = sprintf(
-            '%s.%s',
-            strtolower(class_basename($this->message->subjectable_type)),
-            $this->message->subjectable->uuid
+            'channel.%s',
+            $this->message->channel->uuid
         );
 
         return new PrivateChannel($channel);

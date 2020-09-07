@@ -10,9 +10,7 @@ export default {
       })
   },
 
-  async updateLastChannel({ commit }, { type, uuid }) {
-    const formData = { uuid: uuid }
-
+  async updateLastChannel({ commit }, { formData }) {
     return await this.$axios.patch(`/chat/account/last-channel`, formData)
       .then(response => {
         commit('setUser', response.data.data)
