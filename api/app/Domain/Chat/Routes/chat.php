@@ -30,7 +30,7 @@ Route::group(['middleware' => ['api', 'auth:api']], function () {
     Route::post('/channels', Controllers\Channel\CreateController::class);
     Route::get('/channels/{channel}', Controllers\Channel\ReadController::class);
     Route::patch('/channels/{channel}', Controllers\Channel\UpdateController::class);
-//    Route::delete('/channels/{channel}', Controllers\Channel\DeleteController::class);
+    Route::delete('/channels/{channel}', Controllers\Channel\DeleteController::class);
 
     # channel messages
 //    Route::get('/channels/{channel}/messages', Controllers\Channel\Message\ListController::class);
