@@ -1,5 +1,5 @@
 # DOMO Chat App
-![Chat App]()
+![Chat App](https://github.com/nic-d/domo.code.test/blob/master/.github/images/app.png)
 
 ### Initial Setup
 1. Install [docker on mac](https://hub.docker.com/?overlay=onboarding).
