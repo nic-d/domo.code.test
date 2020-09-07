@@ -66,12 +66,6 @@ export default {
 
   async beforeMount() {
     await this.$store.dispatch('channel/list')
-
-    let user = this.$auth.user
-
-    if (user.last_channel !== null) {
-      this.defaultChannel = user.last_channel
-    }
   },
 }
 </script>

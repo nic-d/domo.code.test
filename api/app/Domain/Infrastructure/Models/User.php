@@ -64,11 +64,12 @@ class User extends Authenticatable
      */
     public function getLastActiveChannelAttribute() : ?string
     {
-        if (! $this->channel instanceof Channel) {
-            return null;
+        if ($this->channel instanceof Channel) {
+            return $this->channel->uuid;
         }
 
-        return $this->channel->uuid;
+        // If no channel set, let's return the first one
+        return Channel::all()->first()->uuid;
     }
 
     /**

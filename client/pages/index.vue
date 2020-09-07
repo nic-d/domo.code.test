@@ -21,20 +21,9 @@ export default {
     }),
   },
 
-  data() {
-    return {
-      defaultChannel: 'General',
-    }
-  },
-
   async beforeMount() {
     let user = this.$auth.user
-
-    if (user.last_channel !== null) {
-      this.defaultChannel = user.last_channel
-    }
-
-    this.$router.push(`/channel/${this.defaultChannel}`)
+    this.$router.push(`/channel/${user.last_channel}`)
   },
 }
 </script>
