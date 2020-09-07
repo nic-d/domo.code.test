@@ -26,7 +26,7 @@ Route::group(['middleware' => ['api', 'auth:api']], function () {
     Route::patch('/account/last-channel', Controllers\Account\Channel\UpdateController::class);
 
     # channels
-//    Route::get('/channels', Controllers\Channel\ListController::class);
+    Route::get('/channels', Controllers\Channel\ListController::class);
 //    Route::post('/channels', Controllers\Channel\CreateController::class);
 //    Route::get('/channels/{channel}', Controllers\Channel\ReadController::class);
 //    Route::patch('/channels/{channel}', Controllers\Channel\UpdateController::class);
