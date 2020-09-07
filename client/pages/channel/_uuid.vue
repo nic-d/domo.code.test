@@ -17,7 +17,7 @@
       </div>
     </div>
 
-    <div class="px-6 py-4 flex-1 overflow-y-scroll" v-if="messages && messages.data.length">
+    <div class="px-6 py-4 flex-1 overflow-y-scroll" v-if="messages && messages.data.length" ref="messages">
       <message
         v-for="(item, index) in messages.data"
         v-bind="item"
@@ -76,6 +76,20 @@ export default {
     },
   },
 
+  watch: {
+    messages: {
+      deep: true,
+      immediate: false,
+
+      handler () {
+        this.$nextTick(function() {
+          let container = this.$refs.messages;
+          container.scrollTop = container.scrollHeight + 200;
+        });
+      },
+    },
+  },
+
   computed: {
     ...mapGetters({
       channel: 'channel/getChannel',
@@ -98,6 +112,7 @@ export default {
   async mounted() {
     this.$echo.channel(`private-channel.${this.$route.params.uuid}`)
       .on('message.created', response => {
+        // Avoid creating the message element in DOM if sent by the current user
         if (this.$auth.user.uuid !== response.user.uuid) {
           this.$store.dispatch('message/wsCreate', response)
         }
