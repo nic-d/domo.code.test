@@ -46,7 +46,6 @@ export default {
   plugins: [
     '~plugins/axios',
     '~plugins/vuelidate',
-    '~plugins/vue-spinner',
   ],
 
   /*

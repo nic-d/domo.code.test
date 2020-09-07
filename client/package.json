@@ -21,7 +21,6 @@
     "pusher-js": "^7.0.0",
     "tailwindcss": "^1.5.2",
     "vue-clipboard2": "^0.3.1",
-    "vue-spinner": "^1.0.4",
     "vuelidate": "^0.7.5"
   },
   "devDependencies": {
