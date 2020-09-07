@@ -17,12 +17,29 @@
       </div>
     </div>
 
-    <div class="px-6 py-4 flex-1 overflow-y-scroll" v-if="messages && messages.data.length" ref="messages">
-      <message
-        v-for="(item, index) in messages.data"
-        v-bind="item"
-        v-bind:key="item.uuid"
-      />
+    <div class="px-6 py-4 flex-1 overflow-y-scroll" ref="messages">
+      <div v-if="messages && messages.data.length">
+        <message
+          v-for="(item, index) in messages.data"
+          v-bind="item"
+          v-bind:key="item.uuid"
+        />
+      </div>
+
+      <div v-else>
+        <div class="bg-gray-100 sm:rounded-lg">
+          <div class="px-4 py-5 sm:p-6">
+            <h3 class="text-lg leading-6 font-medium text-gray-900">
+              No Messages Just Yet!
+            </h3>
+            <div class="mt-2 max-w-xl text-sm leading-5 text-gray-500">
+              <p>
+                This place looks pretty empty, why don't you be the first to send a message to #{{ channel.name }}?
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="pb-6 px-4 flex-none">
@@ -51,12 +68,14 @@
 import { mapGetters, mapActions } from 'vuex'
 import { required, minLength, maxLength } from 'vuelidate/lib/validators'
 import message from "../../components/chat/message"
+import modal from "../../components/common/modal"
 
 export default {
   name: "uuid",
 
   components: {
     message,
+    modal,
   },
 
   data() {
