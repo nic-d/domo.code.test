@@ -12,8 +12,6 @@
       </div>
 
       <div class="ml-auto hidden md:block">
-        <div class="relative">
-        </div>
       </div>
     </div>
 
