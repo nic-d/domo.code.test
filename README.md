@@ -31,11 +31,17 @@
     This will bring up all our containers to run the app.
    
 7. Run the API migrations:
-   `./bin/artisan migrate` 
+   `./bin/artisan migrate`
+   
+8. Install Laravel Passport:
+   `./bin/artisan passport:install` and then copy the secret for ID 2, and paste
+   this into the .env for `api`.
+   
+9. You should be good to go!
 
 ### Helper Commands
 
-We've built a few short commands to make working with our containers easier. docker-compose has
+I've built a few short commands to make working with our containers easier. docker-compose has
 several long-winded commands, so this just makes life that little bit easier :).
 
 | Command                             | Description                                                |
